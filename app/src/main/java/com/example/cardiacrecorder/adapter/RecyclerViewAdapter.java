@@ -20,8 +20,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<CardiacRecord> recordList;
     private Context context;
 
-    public RecyclerViewAdapter(Context context, List<CardiacRecord> recordList) {
-        this.recordList = recordList;
+    public RecyclerViewAdapter(Context context) {
         this.context = context;
     }
 
@@ -44,6 +43,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         return recordList.size();
+    }
+
+    public void setRecordList( List<CardiacRecord> recordList){
+        this.recordList= recordList;
+        notifyDataSetChanged();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
