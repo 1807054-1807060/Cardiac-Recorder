@@ -1,6 +1,7 @@
 package com.example.cardiacrecorder.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewPropertyAnimatorListener;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cardiacrecorder.MainActivity;
 import com.example.cardiacrecorder.R;
+import com.example.cardiacrecorder.ShowActivity;
 import com.example.cardiacrecorder.model.CardiacRecord;
 
 import java.util.List;
@@ -67,7 +70,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View v) {
-            Log.d("item-click", "item clicked");
+            int position= getAbsoluteAdapterPosition();
+            Intent intent = new Intent(context, ShowActivity.class);
+
+            context.startActivity(intent);
         }
     }
 }
