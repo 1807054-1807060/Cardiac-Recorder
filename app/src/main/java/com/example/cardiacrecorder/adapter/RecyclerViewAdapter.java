@@ -72,7 +72,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View v) {
             int position= getAbsoluteAdapterPosition();
             Intent intent = new Intent(context, ShowActivity.class);
-
+            CardiacRecord cardiacRecord= recordList.get(position);
+            intent.putExtra("name", cardiacRecord.getName());
+            intent.putExtra("date", cardiacRecord.getDate());
+            intent.putExtra("time", cardiacRecord.getTime());
+            intent.putExtra("systolicPressure", String.valueOf(cardiacRecord.getSystolicPressure()));
+            intent.putExtra("diastolicPressure", String.valueOf(cardiacRecord.getDiastolicPressure()));
+            intent.putExtra("heartRate", String.valueOf(cardiacRecord.getHeartRate()));
+            intent.putExtra("comment", cardiacRecord.getComment());
             context.startActivity(intent);
         }
     }
