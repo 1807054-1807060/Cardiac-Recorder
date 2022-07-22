@@ -7,6 +7,9 @@ package com.example.cardiacrecorder.model;
 // • heart rate in beats per minute (non-negative integer)
 // • comment (textual, up to 20 characters)
 
+/**
+ * This is a class to store all the field in a record
+ */
 public class CardiacRecord {
     private int id;
     private String name;
@@ -17,6 +20,16 @@ public class CardiacRecord {
     private int heartRate;
     private String comment;
 
+    /**
+     * Constructor of CardiacRecord class
+     * @param name
+     * @param date
+     * @param time
+     * @param systolicPressure
+     * @param diastolicPressure
+     * @param heartRate
+     * @param comment
+     */
     public CardiacRecord(String name, String date, String time, int systolicPressure, int diastolicPressure, int heartRate, String comment) {
         this.name = name;
         this.date = date;
@@ -27,6 +40,14 @@ public class CardiacRecord {
         this.comment = comment;
     }
 
+    /**
+     * Constructor of CardiacRecord class
+     * @param name
+     * @param systolicPressure
+     * @param diastolicPressure
+     * @param heartRate
+     * @param comment
+     */
     public CardiacRecord(String name, int systolicPressure, int diastolicPressure, int heartRate, String comment) {
         this.name = name;
         this.systolicPressure = systolicPressure;

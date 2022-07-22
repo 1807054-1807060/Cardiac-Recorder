@@ -19,6 +19,9 @@ import com.example.cardiacrecorder.model.CardiacRecord;
 
 import java.util.List;
 
+/**
+ * This class is for Recycler View
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
     private List<CardiacRecord> recordList;
     private Context context;
@@ -34,6 +37,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
         CardiacRecord record= recordList.get(position);
@@ -43,6 +51,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.date.setText(record.getDate());
     }
 
+    /**
+     *
+     * @return the size of record list
+     */
     @Override
     public int getItemCount() {
         return recordList.size();
