@@ -40,7 +40,7 @@ public class DbHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void addRecord(CardiacRecord record){
+    public long addRecord(CardiacRecord record){
         SQLiteDatabase db= this.getWritableDatabase();
         ContentValues values= new ContentValues();
         values.put(Parameters.KEY_NAME, record.getName());
@@ -50,10 +50,25 @@ public class DbHandler extends SQLiteOpenHelper {
         values.put(Parameters.KEY_DIA_PRESSURE,record.getDiastolicPressure());
         values.put(Parameters.KEY_HEART_RATE,record.getHeartRate());
         values.put(Parameters.KEY_COMMENT,record.getComment());
-        db.insert(Parameters.TABLE_NAME, null, values);
+        long id = db.insert(Parameters.TABLE_NAME, null, values);
         Log.d("add-record", "addRecord: successfully added");
         db.close();
+        return id;
     }
+
+    public boolean checkIfDataExists(Long id) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String Query = "Select * from " + Parameters.TABLE_NAME + " where " + Parameters.KEY_ID + " = " + Long.toString(id);
+        Cursor cursor = sqLiteDatabase.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
+
     public List<CardiacRecord> showRecords(){
         List<CardiacRecord> records = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -89,6 +104,22 @@ public class DbHandler extends SQLiteOpenHelper {
         values.put(Parameters.KEY_COMMENT,record.getComment());
         db.update(Parameters.TABLE_NAME,values,Parameters.KEY_ID+"=?", new String[]{String.valueOf(record.getId())});
         db.close();
+    }
+
+    public boolean checkUpdatedName(CardiacRecord record, String newName)
+    {
+        SQLiteDatabase sqLiteDatabase =  this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.query(Parameters.TABLE_NAME, new String[]{Parameters.KEY_NAME}, Parameters.KEY_ID+" = '"+record.getId()+"'", null, null, null, null);
+        while (cursor.moveToNext()) {
+            int index1 = cursor.getColumnIndex(Parameters.KEY_NAME);
+            String dbName = cursor.getString(index1);
+            if(dbName != newName)
+            {
+                cursor.close();
+                return false;
+            }
+        }
+        return true;
     }
 
     public void deleteRecord(CardiacRecord record){
