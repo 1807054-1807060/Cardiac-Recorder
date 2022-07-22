@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView= findViewById(R.id.recyclerview);
+        recyclerView= findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DbHandler dbHandler = new DbHandler(MainActivity.this);
