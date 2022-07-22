@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.example.cardiacrecorder.datetime.DateTime;
 import com.example.cardiacrecorder.model.CardiacRecord;
 import com.example.cardiacrecorder.params.Parameters;
@@ -106,20 +104,51 @@ public class DbHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public boolean checkUpdatedName(CardiacRecord record, String newName)
+    public boolean checkUpdated(CardiacRecord record, String newName, String newDate, String newTime, int newSystolicPressure, int newDiastolicPressure, int newHeartRate, String newComment)
     {
-        SQLiteDatabase sqLiteDatabase =  this.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.query(Parameters.TABLE_NAME, new String[]{Parameters.KEY_NAME}, Parameters.KEY_ID+" = '"+record.getId()+"'", null, null, null, null);
-        while (cursor.moveToNext()) {
-            int index1 = cursor.getColumnIndex(Parameters.KEY_NAME);
-            String dbName = cursor.getString(index1);
-            if(dbName != newName)
-            {
-                cursor.close();
-                return false;
-            }
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query= "SELECT * FROM "+Parameters.TABLE_NAME + " where " + Parameters.KEY_ID + " = " +record.getId() ;
+        Cursor cursor= db.rawQuery(query,null);
+
+        if(cursor.moveToFirst()){
+            do{
+                String dbName = cursor.getString(1);
+                String dbDate = cursor.getString(1);
+                String dbTime = cursor.getString(2);
+                int dbSystolicPressure = Integer.parseInt(cursor.getString(4));
+                int dbDiastolicPressure = Integer.parseInt(cursor.getString(5));
+                int dbHeartRate = Integer.parseInt(cursor.getString(6));
+                String dbComment = cursor.getString(7);
+
+                if(dbName!=newName || dbDate!=newDate || dbTime!=newTime || dbSystolicPressure!=newSystolicPressure || dbDiastolicPressure!=newDiastolicPressure || dbHeartRate !=newHeartRate || dbComment!=newComment)
+                {
+                    cursor.close();
+                    return true;
+                }
+            }while(cursor.moveToNext());
         }
-        return true;
+        db.close();
+        return false;
+
+
+
+
+
+
+
+
+//        SQLiteDatabase sqLiteDatabase =  this.getWritableDatabase();
+//        Cursor cursor = sqLiteDatabase.query(Parameters.TABLE_NAME, new String[]{Parameters.KEY_NAME}, Parameters.KEY_ID+" = '"+record.getId()+"'", null, null, null, null);
+//        while (cursor.moveToNext()) {
+//            int index1 = cursor.getColumnIndex(Parameters.KEY_NAME);
+//            String dbName = cursor.getString(index1);
+//            if(dbName != newName)
+//            {
+//                cursor.close();
+//                return false;
+//            }
+//        }
+//        return true;
     }
 
     public void deleteRecord(CardiacRecord record){

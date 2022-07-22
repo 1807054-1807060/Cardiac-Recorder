@@ -14,15 +14,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.runner.RunWith;
 
 
-
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.android.controller.ActivityController;
-import org.robolectric.annotation.Config;
-
-
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -106,11 +99,24 @@ public class DbHandlerTest extends TestCase {
 
         //now updating
         String newName= "name2";
+        String newDate = new DateTime().geDate();
+        String newTime = new DateTime().getTime();
+        int newSystolicPressure = 70;
+        int newDiastolicPressure = 80;
+        int newHeartRate = 78;
+        String newComment = "NewComment";
+
         record.setName(newName);
+        record.setDate(newDate);
+        record.setTime(newTime);
+        record.setSystolicPressure(newSystolicPressure);
+        record.setDiastolicPressure(newDiastolicPressure);
+        record.setHeartRate(newHeartRate);
+        record.setComment(newComment);
+
         db.updateRecord(record);
 
-        assertFalse(db.checkUpdatedName(record, newName));
-
+        assertTrue(db.checkUpdated(record, newName, newDate, newTime, newSystolicPressure, newDiastolicPressure, newHeartRate, newComment));
     }
 
 
