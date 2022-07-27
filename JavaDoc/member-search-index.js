@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.example.cardiacrecorder.datetime","c":"DateTime","l":"DateTime()","u":"%3Cinit%3E()"},{"p":"com.example.cardiacrecorder.datetime","c":"DateTime","l":"geDate()"},{"p":"com.example.cardiacrecorder.datetime","c":"DateTime","l":"getTime()"}];updateSearchResults();

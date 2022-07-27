@@ -14,12 +14,23 @@ import com.example.cardiacrecorder.params.Parameters;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class to handle the local database(SQLite)
+ */
 public class DbHandler extends SQLiteOpenHelper {
 
+    /**
+     * Constructor of database handler
+     * @param context
+     */
     public DbHandler(Context context) {
         super(context, Parameters.DB_NAME, null, Parameters.DB_VERSION);
     }
 
+    /**
+     * While creatint the table on the database for the fist time
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query= "CREATE TABLE "+ Parameters.TABLE_NAME + " ( "
@@ -34,10 +45,22 @@ public class DbHandler extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    /**
+     * On Upgrade the database
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+    /**
+     *This function add new data in the local database
+     * @param record record of the row to insert
+     * @return the id of record that has been inserted
+     */
     public long addRecord(CardiacRecord record){
         SQLiteDatabase db= this.getWritableDatabase();
         ContentValues values= new ContentValues();
@@ -54,6 +77,11 @@ public class DbHandler extends SQLiteOpenHelper {
         return id;
     }
 
+    /**
+     * Check the data is exist or not
+     * @param id the id of record, that has been inserted
+     * @return true if data is exist, or false otherwise
+     */
     public boolean checkIfDataExists(Long id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         String Query = "Select * from " + Parameters.TABLE_NAME + " where " + Parameters.KEY_ID + " = " + Long.toString(id);
@@ -67,6 +95,10 @@ public class DbHandler extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * To show all the records in database
+     * @return list of records
+     */
     public List<CardiacRecord> showRecords(){
         List<CardiacRecord> records = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -90,6 +122,10 @@ public class DbHandler extends SQLiteOpenHelper {
         return records;
     }
 
+    /**
+     * To update the record that already exist in the database
+     * @param record that need to be modify/edit
+     */
     public void updateRecord(CardiacRecord record){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values= new ContentValues();
@@ -104,6 +140,18 @@ public class DbHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * check update function
+     * @param record
+     * @param newName
+     * @param newDate
+     * @param newTime
+     * @param newSystolicPressure
+     * @param newDiastolicPressure
+     * @param newHeartRate
+     * @param newComment
+     * @return true if data success updated on database or false otherwise
+     */
     public boolean checkUpdated(CardiacRecord record, String newName, String newDate, String newTime, int newSystolicPressure, int newDiastolicPressure, int newHeartRate, String newComment)
     {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -151,6 +199,10 @@ public class DbHandler extends SQLiteOpenHelper {
 //        return true;
     }
 
+    /**
+     * The the record the exist on the database
+     * @param record that need to delete
+     */
     public void deleteRecord(CardiacRecord record){
         SQLiteDatabase db= this.getWritableDatabase();
         db.delete(Parameters.TABLE_NAME,Parameters.KEY_ID+"=?", new String[]{String.valueOf(record.getId())});

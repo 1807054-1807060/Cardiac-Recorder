@@ -7,6 +7,9 @@ package com.example.cardiacrecorder.params;
 // • heart rate in beats per minute (non-negative integer)
 // • comment (textual, up to 20 characters)
 
+/**
+ * This is a class to store the name of database name, table name and column name of our database
+ */
 public class Parameters {
     public static final int DB_VERSION= 1;
     public static final String DB_NAME= "cardiac_recorder_db";
